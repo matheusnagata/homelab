@@ -1,4 +1,4 @@
-# ![ ](image.png)Terraform
+# ![alt text](../images/terraform_icon.png) Terraform
 
 ---
 
