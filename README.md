@@ -34,7 +34,7 @@ This repository serves as a living document of my homelab, including infrastruct
 My homelab consists mainly of 5 virtual machines, each running OpenSUSE Leap 15.6. Three of these nodes (VMs) are configured as a unified RKE2 cluster, serving both control plane and worker roles.
 
 * `OpenSUSE-Leap-15.6` (Template VM)
-* `lab-gateway` (VM created to allow me to have a "carry-on" lab no matter the network I'm connected to on my laptop, leveraging the use of virtual networks in VMware Workstation.)
+* `lab-gateway` (VM created to allow a "carry-on" lab no matter the network you may be connected to, leveraging the use of virtual networks in VMware Workstation.)
 * `lab-rancher01` (Control Plane + Worker)
 * `lab-rancher02` (Worker)
 * `lab-rancher03` (Worker)
