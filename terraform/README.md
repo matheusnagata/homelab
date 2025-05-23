@@ -1,4 +1,4 @@
-# ![alt text](../images/terraform_icon.png) Terraform
+# Terraform
 
 ---
 
