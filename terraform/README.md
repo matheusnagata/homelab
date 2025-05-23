@@ -15,8 +15,8 @@ This folder contains all Terraform configurations and setup guides I'm experimen
 ---
 
 ## 🔗 Reference Links:
-https://registry.terraform.io/providers/elsudano/vmworkstation/latest/docs
-https://github.com/elsudano/terraform-provider-vmworkstation
+* https://registry.terraform.io/providers/elsudano/vmworkstation/latest/docs
+* https://github.com/elsudano/terraform-provider-vmworkstation
 
 ---
 
