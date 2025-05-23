@@ -32,7 +32,8 @@ vmrest.exe --config
 cd "C:\Program Files (x86)\VMware\VMware Workstation"
 vmrest.exe
 ```
-### 3. Test the API (Optional but Recommended): Open a web browser and go to `http://localhost:8697` (or `https` if you've configured SSL, which is more complex to set up initially).
+### 3. Test the API (Optional but Recommended): 
+Open a web browser and go to `http://localhost:8697` (or `https` if you've configured SSL, which is more complex to set up initially).
 
 ### 4. Open your Command Prompt/Terminal and navigate to your `my_vmws_terraform` directory:
 ```powershell	
