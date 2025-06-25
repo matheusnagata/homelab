@@ -381,7 +381,7 @@ watch kubectl get nodes
 # Add helm:
 curl -#L https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-# Add helm charts:
+# Add Rancher and Jetstack helm charts:
 helm repo add rancher-latest https://releases.rancher.com/server-charts/latest --force-update
 helm repo add jetstack https://charts.jetstack.io --force-update
 
@@ -419,6 +419,20 @@ kubectl logs -n POD_NAME
 # Useful commands:
 kubectl get ingress -A # List all ingress resources across all namespaces.
 watch kubectl get pods -n cattle-system # Continuously displays the status of all pods within the cattle-system namespace.
+```
+
+### 5. Longhorn
+
+```bash
+# You can install Longhorn from Rancher or directly on a server as shown below:
+# Add Longhorn helm charts:
+helm repo add longhorn https://charts.longhorn.io --force-update
+
+# Install Longhorn via helm:
+helm upgrade -i longhorn longhorn/longhorn --namespace longhorn-system --create-namespace
+
+# Show the storage classes:
+kubectl get sc
 ```
 
 ## 🚧 Under Construction 🚧
