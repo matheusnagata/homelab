@@ -4,7 +4,7 @@ apiVersion: rke-machine-config.cattle.io/v1
 kind: HarvesterConfig
 metadata:
   name: pool1-config
-  namespace: fleet-default
+  namespace: default
 spec:
   cpuCount: "2"
   memorySize: "4" 
@@ -27,7 +27,7 @@ apiVersion: provisioning.cattle.io/v1
 kind: Cluster
 metadata:
   name: fleet-deployed-cluster
-  namespace: fleet-default
+  namespace: default
 spec:
   kubernetesVersion: v1.34.5+rke2r1
   
