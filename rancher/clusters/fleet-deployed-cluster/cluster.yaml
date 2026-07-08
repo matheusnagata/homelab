@@ -41,7 +41,7 @@ spec:
       machineConfigRef:
         kind: HarvesterConfig
         name: pool1-config
-      cloudCredentialSecretName: harvester-credential
+      cloudCredentialSecretName: cattle-global-data:cc-z99n7
       
   machineSelectorConfig:
     - config:
