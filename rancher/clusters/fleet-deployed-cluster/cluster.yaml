@@ -27,7 +27,7 @@ apiVersion: provisioning.cattle.io/v1
 kind: Cluster
 metadata:
   name: fleet-deployed-cluster
-  namespace: default
+  namespace: fleet-default
 spec:
   kubernetesVersion: v1.34.5+rke2r1
   
