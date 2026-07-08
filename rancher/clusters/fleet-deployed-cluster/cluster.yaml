@@ -4,13 +4,14 @@ apiVersion: rke-machine-config.cattle.io/v1
 kind: HarvesterConfig
 metadata:
   name: pool1
-  namespace: default
+  namespace: fleet-default
 spec:
+  vmNamespace: "default"
   cpuCount: "2"
   memorySize: "4" 
   diskSize: "40"  
   diskBus: "virtio"
-  sshUser: "nagata" 
+  sshUser: "nagata"
   
   # Infrastructure IDs
   imageName: "default/image-bc9hx" #default/image-bc9hx
