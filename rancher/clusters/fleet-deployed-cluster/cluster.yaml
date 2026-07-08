@@ -3,7 +3,7 @@
 apiVersion: rke-machine-config.cattle.io/v1
 kind: HarvesterConfig
 metadata:
-  name: pool1-config
+  name: pool1
   namespace: default
 spec:
   cpuCount: "2"
