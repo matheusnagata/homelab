@@ -41,7 +41,7 @@ spec:
       machineConfigRef:
         kind: HarvesterConfig
         name: pool1-config
-      cloudCredentialSecretName: harvester-external-creds
+      cloudCredentialSecretName: harvester-credential
       
   machineSelectorConfig:
     - config:
