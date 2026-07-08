@@ -50,7 +50,7 @@ spec:
     users:
       - name: nagata
         # SECURE LOOKUP: Fleet fetches the password hash from Rancher
-        passwd: '{{ (lookup "v1" "Secret" "fleet-default" "nagata-user-password").data.password_hash | b64dec }}'
+        passwd: '{{ (lookup "v1" "Secret" "fleet-default" "nagata-user-password").data.password_hash | default "" | b64dec }}'
         shell: /bin/bash
         lock_passwd: false
         sudo: 'ALL=(ALL) NOPASSWD:ALL'
