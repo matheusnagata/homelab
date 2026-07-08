@@ -1,0 +1,117 @@
+---
+# 1. The Secure Virtual Machine Template
+apiVersion: rke-machine-config.cattle.io/v1
+kind: HarvesterConfig
+metadata:
+  name: pool1
+  namespace: fleet-default
+spec:
+  vmNamespace: "default"
+  cpuCount: "2"
+  memorySize: "4" 
+  diskSize: "40"  
+  diskBus: "virtio"
+  sshUser: "nagata"
+  
+  # Infrastructure IDs
+  imageName: "default/image-bc9hx"
+  networkName: "default/vm-network"   
+  
+  # --- NETWORK DATA ---
+  networkData: |-
+    network:
+      version: 2
+      ethernets:
+        eth0:
+          dhcp4: true
+          nameservers:
+            search:
+              - lab
+            addresses:
+              - 192.168.70.2
+
+  # --- USER DATA ---
+  userData: |-
+    #cloud-config
+    manage_etc_hosts: true
+    timezone: America/Sao_Paulo
+
+    ntp:
+      enabled: true
+      servers:
+        - 0.suse.pool.ntp.org
+        - 1.suse.pool.ntp.org
+        - 2.suse.pool.ntp.org
+        - 3.suse.pool.ntp.org
+
+    ssh_pwauth: true
+    disable_root: false
+
+    users:
+      - name: nagata
+        # SECURE LOOKUP: Fleet fetches the password hash from Rancher
+        passwd: '{{ (lookup "v1" "Secret" "fleet-default" "nagata-user-password").data.password_hash | b64dec }}'
+        shell: /bin/bash
+        lock_passwd: false
+        sudo: 'ALL=(ALL) NOPASSWD:ALL'
+        groups: [wheel, admin]
+        ssh_authorized_keys:
+          - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ6K655W5qgE6B0AUjxU56nOFKEph04peGiFnAATL10z mnsuse3591'
+
+    write_files:
+      - path: /etc/modules-load.d/longhorn.conf
+        permissions: '0644'
+        owner: root:root
+        content: |
+          iscsi_tcp
+          nfs
+          dm_crypt
+      - path: /etc/profile.d/rke2-env.sh
+        permissions: '0644'
+        owner: root:root
+        content: |
+          export KUBECONFIG=/etc/rancher/rke2/rke2.yaml
+          export PATH=$PATH:/var/lib/rancher/rke2/bin
+          
+    runcmd:
+      # SECURE LOOKUP: Fleet injects the SCC credentials from Rancher
+      - SUSEConnect -r {{ (lookup "v1" "Secret" "fleet-default" "suse-scc-credentials").data.scc_code | b64dec }} -e {{ (lookup "v1" "Secret" "fleet-default" "suse-scc-credentials").data.scc_email | b64dec }}
+
+      - zypper refresh
+      - zypper install -y kernel-default qemu-guest-agent chrony curl tar iptables open-iscsi nfs-client cryptsetup
+      - systemctl enable qemu-guest-agent.service
+      - systemctl enable iscsid.socket
+      - systemctl enable iscsid.service
+      - swapoff -a
+      - sed -i '/swap/d' /etc/fstab
+
+    power_state:
+      mode: reboot
+      timeout: 30
+      condition: True
+
+---
+# 2. The RKE2 Cluster Definition
+apiVersion: provisioning.cattle.io/v1
+kind: Cluster
+metadata:
+  name: fleet-deployed-cluster
+  namespace: fleet-default
+spec:
+  kubernetesVersion: v1.34.5+rke2r1
+  
+  rkeConfig:
+    machinePools:
+    - name: pool1
+      quantity: 3 
+      controlPlaneRole: true
+      etcdRole: true
+      workerRole: true
+      machineConfigRef:
+        kind: HarvesterConfig
+        name: pool1
+      cloudCredentialSecretName: cattle-global-data:cc-z99n7
+      
+  machineSelectorConfig:
+    - config:
+        cloud-provider-name: harvester

@@ -1,0 +1,3 @@
+apiVersion: v2
+name: harvester-rke2-cluster
+version: 0.1.0
